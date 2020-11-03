@@ -109,7 +109,6 @@ const upload = multer({
 router.post("/users/me/avatar", auth, upload.single("avatar"), async (req,res)=>{
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
     req.user.avatar = buffer //when we don't set "dest" option for multer, the uploaded file is passed in req.file.buffer. This contains all the binary information of that file.
-    console.log(req.file)
     await req.user.save()
     res.send()
 }, (error, req, res, next)=>{ //This structure (error, req, res, next) lets Express know that this is error handling
